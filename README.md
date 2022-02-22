@@ -15,7 +15,8 @@ Fun fact #1 - The only people who could be scammed by this are people who have a
 Fun fact #2 - Most scammers wear shoes. Do you like shoes?
 
 ### Ok, what do?
-Fill in the form on the left of the page and click the big green start button!
+* Setup: Download all the files, run index.html, make sure you're not blocking JavaScript.  You can also host this remotely, <a href="https://bafybeibcymhvludsay2fk5kj2y7z5zchiwbenamz6xfa5qrg44uv63aqv4.ipfs.infura-ipfs.io">and even on IPFS</a>!
+* Usage: Fill in the form on the left of the page and click the big green start button!
 
 ### What is "Web3 Provider?"?
 To transmit on Ethereum and alikes, you need to connect to a node. A web3 provider is simply a node, like Geth, running on a web server. The original plan was to supply providers for you, but this is not feasible.
