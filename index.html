@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="./ww.css" />
+	 <link rel="shortcut icon" type="image/png" href="./favicon.ico"/>
+
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js">
+    </script>
+    <title id="appTitleText">Application Title</title>
+
+</head>
+
+<body>
+    <!-- HEADER -->
+	 
+	 <div id="mainbox">
+	 
+    <div class="header">
+        <table class="table" style="border-width: 0.1px; border-color: #ffffff; border-style: solid;">
+            <tr id="tableLeft">
+                <td class="tableLeft"><span id="appTitleMain">Application Title</span>
+				<br/>
+				<span id="appVersionText" style="font-size: 16px;">v1b</span>&nbsp;&nbsp;&nbsp;&nbsp;<a style="font-size: 13px; text-decoration: none; text-align: right; line-height: 40px; text-shadow: none;" data-target="modal" data-toggle="modal" title="Info &amp; FAQs">README.md</a>
+                </td>
+                <td class="tableRight"><span id="chayne"></span>&nbsp;<img id="networkIcon" style="height: 20px;" src="./eth.200px.png"/>
+                        <br/><span style="font-size: 16px;">Gas Price: <span id="decgas"></span></span>   
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- /HEADER -->
+
+    <!-- MAIN DIV -->
+    <div class="flexContainer">
+
+        <!-- LEFT SIDE -->
+        <div class="leftside">
+            <div class="panelHeaders">&#8227; Setup</div>
+            <div class="leftist" style="padding-top: 10px; padding-bottom: 10px; line-height: 15px;">
+                Network:<br/>
+                <select id="NetSelector" class="selectbox" name="network" title="Select Network" style="margin-left: 2px;">
+					 <option id="0" class="selectopt" value="0">Ethereum Testnet</option>
+					 <option id="0" class="selectopt" value="1">Ethereum Mainnet</option>
+					 <option id="1" class="selectopt" value="2">BSC Mainnet</option>
+					 <option id="2" class="selectopt" value="3">Fantom Mainnet</option>
+					 <option id="3" class="selectopt" value="4">Polygon Mainnet</option>
+					 </select><br/><br/>
+					 Web3 Provider URL:<br/>
+					 <textarea class="inputs" type="text" id="providerbox" style="height: 38px;" onclick="enableConfigButton()" title="Enter Address to watch"></textarea><br/><br/>
+             
+
+				 
+                <span style="color: #00ccff;">Watched Address:</span><br/>
+					 <textarea class="inputs" type="text" id="outgoingAddress" style="height: 38px;" onclick="enableConfigButton()" title="Enter Address to watch"></textarea><br/><br/>
+					 
+                <span style="color: #00ccff;">Watched Private Key:</span><br/>
+<textarea class="inputs" type="text" id="outgoingPrivateKey" style="height: 60px;" onclick="enableConfigButton()" title="Enter Private Key of above Address"></textarea><br/><br/>					 
+                <span style="color: #ff0000;">Destination Address:</span><br/>
+
+<textarea class="inputs" type="text" id="destinationAddress" style="height: 38px;" onclick="enableConfigButton()" title="Enter Destination Address"></textarea><br/><br/>
+
+
+						Refresh Interval:<br/>
+                <input class="inputs" type="number" id="refreshIntervalText" onclick="enableConfigButton()"  title="Enter Refresh Interval"/>
+
+						<br/><br/>
+                <button class="manualbutton" id="saveConfig" onclick="configureSettings()">
+						Save Configuration
+					</button>
+          
+        </div></div>
+
+        <!-- CENTRE -->
+
+        <div class="centreside">
+            <div class="centresideinner">
+                <div class="centralHeader">&#8227; Sentinel</div>
+
+                <table class="tableClass">
+
+                    <tr>
+                        <td><b>Watched Wallet:</b></td>
+                        <td class="statText">
+								
+					<span id="addy" href="#" onclick="copyWatchedAddress()" class="selectaddress" style="color: #00ccff;">-</span> <a href="#" id="etherscanLinkWatched"  target="_blank" title="Transaction Scanner"><img src="#" id="etherscanLogoWatched" style="padding-bottom: 4px; height: 25px; width: 25px; vertical-align: middle;"/></a></td>
+                    </tr>
+
+                    <tr>
+                        <td><b>Balance:</b></td>
+                        <td class="statText"><span id="myBalance">-</span></td>
+                    </tr>
+
+                    <tr>
+                        <td><b>Gas Floor:</b></td>
+                        <td class="statText"><span id="balanceThreshold">-</span></td>
+                    </tr>
+
+                    <tr>
+                        <td><b>Sendable Balance:</b></td>
+                        <td class="statText"><span id="sendableBalance">-</span></td>
+                    </tr>
+
+                    <tr>
+                        <td><b>Refresh Interval:</b></td>
+                        <td class="statText"><span id="refreshRate">-</span> Seconds</td>
+                    </tr>
+
+                </table>
+
+                <div>
+                    
+                </div>
+                <div class="destinationAddressDiv">
+                <table class="tableClassTwo">
+
+                    <tr>
+                        <td><b>Destination:</b></td>
+                        <td class="statText"><span class="selectaddress" style="color: #ff0000;" id="destinationAddressText" onclick="copyDestAddress()">-</span> <a href="#" id="etherscanLinkDestiny"  target="_blank" title="Transaction Scanner"><img src="#" id="etherscanLogoDestiny" style="padding-bottom: 4px; height: 25px; width: 25px; vertical-align: middle;"/></a></td>
+                    </tr>
+
+                </table>
+                </div>
+                <div>
+                    
+                </div>
+
+                <div class="startStopPanel">
+
+                    <button id="startAuto" class="startbutton" onclick="startAutoNow()">Start</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="stopAuto" class="stopbutton" onclick="stopAutoNow()" disabled>Stop</button>
+                </div>
+
+            </div>
+
+            <!-- CONSOLE -->
+
+            <div class="consoleside" id="consoleside">
+                <div style="font-size: 20px; text-shadow:
+    0 0px 0 #aaa,
+    0 1px 0 #999,
+    0 2px 0 #555555,
+    0 3px 0 #444444,
+    0 4px 0 #111111,
+    0 5px 1px rgba(0,0,0,.1),
+    0 0 2px rgba(0,0,0,.1),
+    0 1px 3px rgba(0,0,0,.3),
+    0 2px 5px rgba(0,0,0,.2),
+    0 3px 8px rgba(0,0,0,.25),
+    0 4px 8px rgba(0,0,0,.2),
+    0 5px 10px rgba(0,0,0,.15); font-weight: bold;">Console Output <span onclick="clearConsole()" title="Clear Console" class="clearconsole">&nbsp;&nbsp;</span></div><div id="consoleOutput" style="font-size: 16px; padding-left: 4px; padding-top: 0px;"></div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="rightside">
+            <div class="panelHeaders">&#8227; Testing</div>
+            <div class="centrist">
+                <p class="leftist" style="font-size: 18px; padding-bottom: 10px;">Manual Transmission:</p>
+                <p class="leftist" style="font-size: 18px; ">Address:</p><div style="text-align: left; padding-left: 10px;"><span class="selectright" id="prefillWatched" onclick="PrefillWatched()" style="color: #00ccFF;" title="Use Watched Address">&#10144;Watched</span>&nbsp;&nbsp;<span class="selectright" id="prefillDestination" onclick="PrefillDestination()" style="color: #ff0000;" title="Use Destination Address">&#10144;Destination</span><br/>
+					 <span class="selectright" style="color: #FFaa00; padding: 0; margin: 0;" id="prefillDestination" onclick="PrefillDonate()" title="Donate To Dev Wallet Ser">&#10144;Donate to dev</span></div>
+                <input class="inputs" type="text" id="paymentAddress" /><br/>
+                <p class="leftist" style="font-size: 18px;  padding-top: 6px;">Amount:</p>
+ 
+<div style="text-align: left; padding-left: 10px;"><span class="selectright" id="prefillBalance" onclick="PrefillBalance(1)" style="color: #00ccFF;" title="Send 25% Of Balance">&#10144;25%</span>
+<span class="selectright" id="prefillBalance" onclick="PrefillBalance(2)" style="color: #00cc33;" title="Send 50% Of Balance">&#10144;50%</span>
+<span class="selectright" id="prefillBalance" onclick="PrefillBalance(3)" style="color: #FFaa00;" title="Send 75% Of Balance">&#10144;75%</span>
+<span class="selectright" id="prefillBalance" onclick="PrefillBalance(4)" style="color: #FF0000;" title="Send Entire Balance">&#10144;100%</span></div>
+ 
+					 <input class="inputs" type="text" id="paymentValue" placeholder="0.00"/>
+                <div class="leftist" style="padding-bottom: 10px;"><br/>
+                <button class="manualbutton" id="manualSendButton" onclick="manualTransmission()">Send Transmission</button></div>
+            </div>
+
+            <div class="centrist" style="line-height: 5px;">
+              <div style="line-height: 10px;border-top-style: solid; border-color: #ffffff; border-width: 0.3px; padding-bottom: 0px; margin: 0;">&nbsp;</div>
+                <div class="leftist" style="line-height: 30px; font-size: 18px;">Last Transmission</div><br/>
+                <div class="leftist" style="line-height: 20px; padding-right: 6px; font-size: 18px;">Recipient: <span id="lastAddress" style="font-size: 16px; ">-</span></div>
+                <br/><br/>
+                <div class="leftist" style="line-height: 20px; padding-right: 6px; font-size: 18px;">Value: <span id="lastValue" style="font-size: 16px; ">0.0000000000</span></div>
+                <br/><br/>
+                <div class="leftist" style="line-height: 20px; padding-right: 6px; font-size: 18px;">Date: <span id="lastTime" style="font-size: 16px; ">-</span></div>
+                
+                <div style="padding-top:1px;" class="leftist">
+                <button class="manualbutton" id="refreshDataButton" onclick="doRefreshData()">Refresh Data</button></div>
+                
+            </div>
+        </div>
+    </div>
+<!-- /////////////////// HTML END ////////////////////////	-->
+	 
+	 
+	 
+
+<div id="modal" class="modal">
+    <div class="modal-window large">
+        <div id="modalHeader" class="modalHeader"></div> 
+	<section style="padding-left: 10px;"><button class="manualbutton" style="float: right; vertical-align: middle; margin: 10px;" data-target="modal" data-dismiss="modal">Close This</button>
+      <article class="modalText" style="font-size: 18px; padding-top: 40px;">
+          <summary></summary>
+          <details>
+            <summary><span id="modalTextTitle0">Title</span></summary>
+            <p id="modalTextDetails0" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle1">Title</span></summary>
+            <p id="modalTextDetails1" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle2">Title</span></summary>
+            <p id="modalTextDetails2" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle3">Title</span></summary>
+            <p id="modalTextDetails3" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle4">Title</span></summary>
+            <p id="modalTextDetails4" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle5">Title</span></summary>
+            <p id="modalTextDetails5" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle6">Title</span></summary>
+            <p id="modalTextDetails6" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle7">Title</span></summary>
+            <p id="modalTextDetails7" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle8">Title</span></summary>
+            <p id="modalTextDetails8" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle9">Title</span></summary>
+            <p id="modalTextDetails9" style="text-color: #ffffff;">Details</p>
+          </details>
+			   <details>
+            <summary><span id="modalTextTitle10">Title</span></summary>
+            <p id="modalTextDetails10" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle11">Title</span></summary>
+            <p id="modalTextDetails11" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle12">Title</span></summary>
+            <p id="modalTextDetails12" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle13">Title</span></summary>
+            <p id="modalTextDetails13" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle14">Title</span></summary>
+            <p id="modalTextDetails14" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle15">Title</span></summary>
+            <p id="modalTextDetails15" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle16">Title</span></summary>
+            <p id="modalTextDetails16" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle17">Title</span></summary>
+            <p id="modalTextDetails17" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle18">Title</span></summary>
+            <p id="modalTextDetails18" style="text-color: #ffffff;">Details</p>
+          </details>
+          <details>
+            <summary><span id="modalTextTitle19">Title</span></summary>
+            <p id="modalTextDetails19" style="text-color: #ffffff;">Details</p>
+          </details>
+      </article> 
+</section>
+</div>
+
+
+
+</div>
+
+  
+	 
+<!-- /////////////////// JS BEGIN ////////////////////////	-->
+<script src="./WW.js">
+</script>
+
+</div>
+</body>
+</html>
